@@ -30,10 +30,10 @@ public class GetStudentImagesDemo {
 			Student student = session.get(Student.class, theId);
 			
 			//print the student detail
-			System.out.println("Student details: "+student);
+			System.out.println("Student details: " + student);
 			
 			//print the associated images
-			System.out.println("The associated images: "+student.getImages());
+			System.out.println("The associated images: " + student.getImages());
 			
 			//commit the transaction
 			session.getTransaction().commit();

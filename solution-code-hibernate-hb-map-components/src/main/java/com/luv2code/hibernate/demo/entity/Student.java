@@ -1,20 +1,13 @@
 package com.luv2code.hibernate.demo.entity;
 
-import java.util.Comparator;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
-import javax.persistence.CollectionTable;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.SortComparator;
 
 @Entity
 @Table(name="student")
@@ -22,6 +15,7 @@ public class Student {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="id")
 	private int id;
 	
 	@Column(name="first_name")
@@ -32,31 +26,21 @@ public class Student {
 	
 	@Column(name="email")
 	private String email;
-		
-	@ElementCollection
-	@CollectionTable(name="image")
-	@MapKeyColumn(name="file_name") //Maps Key
-	@Column(name="image_name") //Maps Value
-	@SortComparator(ReverseStringComparator.class)
-	private SortedMap<String, String> images = new TreeMap<String, String>();
 	
+	// The Address is @Embeddable, no annotation needed here...
+	private Address homeAddress;
 	
-	// Custom comparator
-	public static class ReverseStringComparator implements Comparator<String>{
+	@AttributeOverrides({
+		@AttributeOverride(name="street", column=@Column(name="billing_street")),
+		@AttributeOverride(name="city", column=@Column(name="billing_city")),
+		@AttributeOverride(name="zipcode", column=@Column(name="billing_zipcode"))
+	})
+	private Address billingAddress;
 
-		@Override
-		public int compare(String o1, String o2) {
-			
-			return o2.compareTo(o1);
-		}
-		
-	}
-	
-	
 	public Student() {
 		
 	}
-	
+
 	public Student(String firstName, String lastName, String email) {
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -94,20 +78,29 @@ public class Student {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-
-
-	public SortedMap<String, String> getImages() {
-		return images;
+	
+	public Address getHomeAddress() {
+		return homeAddress;
 	}
 
-	public void setImages(SortedMap<String, String> images) {
-		this.images = images;
+	public void setHomeAddress(Address homeAddress) {
+		this.homeAddress = homeAddress;
+	}
+	
+	public Address getBillingAddress() {
+		return billingAddress;
+	}
+
+	public void setBillingAddress(Address billingAddress) {
+		this.billingAddress = billingAddress;
 	}
 
 	@Override
 	public String toString() {
 		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + "]";
 	}
-	
 }
+
+
+
+
