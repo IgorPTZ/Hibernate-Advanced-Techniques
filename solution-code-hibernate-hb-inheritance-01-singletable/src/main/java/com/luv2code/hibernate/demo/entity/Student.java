@@ -1,95 +1,24 @@
 package com.luv2code.hibernate.demo.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 @Entity
-@Table(name="student")
-public class Student {
+public class Student extends User {
 
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="id")
-	private int id;
+	private String course;
 	
-	@Column(name="first_name")
-	private String firstName;
-	
-	@Column(name="last_name")
-	private String lastName;
-	
-	@Column(name="email")
-	private String email;
-	
-	@Enumerated(EnumType.STRING)
-	@Column(name="status")
-	private Status status;
-
-	public Student() {
+	public Student(String firstName, String lastName, String email, String course) {
 		
+		super(firstName, lastName, email);
+		
+		this.course = course;
 	}
 
-	public Student(String firstName, String lastName, String email, Status status) {
-		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.email = email;
-		this.status = status;
+	public String getCourse() {
+		return course;
 	}
 
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-
-	@Override
-	public String toString() {
-		return "Student [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", status=" + status + "]";
+	public void setCourse(String course) {
+		this.course = course;
 	}
 }
-
-
-
-
